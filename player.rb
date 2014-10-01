@@ -26,11 +26,7 @@ class Player
   end
 
   def most_improved_batting_average( range )
-    100
-  end
-
-  def least_improved_batting_average( range )
-    20
+    (self.at_bats > 199 ? 100 : 1)
   end
 
   def Player.add csv

@@ -42,7 +42,6 @@ describe 'baseball' do
       players.each do |player|
         expect(player).to respond_to :AB
         expect(player).to respond_to :at_bats
-        expect(player.least_improved_batting_average( RANGE )).not_to be_nil 
         expect(player.most_improved_batting_average( RANGE )).not_to be_nil
       end
 
@@ -64,17 +63,18 @@ describe 'baseball' do
     end
 
     it 'should output the most improved batting average (hits/at-bats) from 2009-2010 for players with at least 200 at-bats' do
-      least_improved = Player.all.select{ |player| player.least_improved_batting_average( RANGE ) > 10 }
-      at_least_200 = Player.all.select { |dude| dude.at_bats > 199 } 
+      least_improved = Player.all.select{ |player| player.most_improved_batting_average( RANGE ) < 50 }
+      at_least_200 = Player.all.select { |player| player.at_bats > 199 and player.most_improved_batting_average( RANGE ) > 49 } 
       expect(least_improved.size).to be > 0
       expect(at_least_200.size).to be > 0
+
       at_least_200.each do |winner|
         expect(least_improved).not_to include winner
       end
       
-      at_least_200.each do |player|
+      at_least_200.each do |winner|
         least_improved.each do |loser| 
-          expect(player.most_improved_batting_average( RANGE )).to be > loser.most_improved_batting_average( RANGE )
+          expect(winner.most_improved_batting_average( RANGE )).to be > loser.most_improved_batting_average( RANGE )
         end
       end 
     end
