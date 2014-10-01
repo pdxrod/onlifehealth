@@ -1,4 +1,4 @@
-require File.expand_path( '../../player', __FILE__ )
+require File.expand_path( '../../player.rb', __FILE__ )
 
 RANGE = ( 2009 .. 2010 )
 

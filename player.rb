@@ -10,10 +10,15 @@ class Player
 # accarje01,2008,AL,TOR,16,,,,,,,,,
 
 
+  def initialize csv
+puts csv
+  end
+
   def Player.all
+    csvs = CSV.read( File.expand_path( '../Batting-07-12.csv', __FILE__ ))
     players = []
     csvs.each do |csv|
-      players << Player.init csv
+      players << Player.new csv
     end
     players
   end
