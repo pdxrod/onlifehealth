@@ -5,13 +5,19 @@ RANGE = ( 2009 .. 2010 )
 describe 'baseball' do
   
   context 'basic methods' do
-    players = Player.all
-    expect(players[0]).not_to eq players[-1]
-    players.each do |player|
-      expect(player.respond_to? :at_bats).to be_true
-      expect(player.least_improved_batting_average( RANGE )).not_to be_nil 
-      expect(player.most_improved_batting_average( RANGE )).not_to be_nil
+
+    it 'should have basic baseball methods' do
+
+      players = Player.all
+      expect(players[0]).not_to eq players[-1]
+      players.each do |player|
+        expect(player.respond_to? :at_bats).to be_true
+        expect(player.least_improved_batting_average( RANGE )).not_to be_nil 
+        expect(player.most_improved_batting_average( RANGE )).not_to be_nil
+      end
+
     end
+
   end
 
   context 'improved batting average' do
