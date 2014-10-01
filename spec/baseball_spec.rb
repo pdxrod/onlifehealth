@@ -26,8 +26,9 @@ describe 'baseball' do
       player = Player.new csv
       expect( player.playerID ).to eq 'accarje01'
       expect( player.at_bats ).to eq 2
-      player = Player.find 'accarje01'
+      player = Player.find csv
       player.add csv
+      player = Player.find csv
       expect( player.at_bats ).to eq 4
     end
 

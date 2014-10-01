@@ -41,11 +41,8 @@ class Player
   end
 
   def Player.find( csv )
-
-   puts csv[0]
-    Player.all.select { |player| player.playerID == csv[ 0 ] }[ 0 ]
-
-    
+    players = Player.all.select { |player| player.playerID == csv[ 0 ] }
+    players[ 0 ]
   end
 
   def Player.initialize
