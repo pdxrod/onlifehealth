@@ -11,7 +11,7 @@ describe 'baseball' do
       players = Player.all
       expect(players[0]).not_to eq players[-1]
       players.each do |player|
-        expect(player.respond_to? :at_bats).to be_true
+        expect(player).to respond_to :at_bats
         expect(player.least_improved_batting_average( RANGE )).not_to be_nil 
         expect(player.most_improved_batting_average( RANGE )).not_to be_nil
       end
