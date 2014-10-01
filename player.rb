@@ -3,6 +3,8 @@ require 'csv'
 
 class Player
 
+  @@players = []
+
   ATTRIBUTES = [:playerID, :yearID, :league, :teamID, :G, :AB, :R, :H, :B2, :B3, :HR, :RBI, :SB, :CS]
   ATTRIBUTES.each { |attribute| attr_accessor attribute }  
 # accarje01,2012,AL,CLE,26,0,0,0,0,0,0,0,0,0
@@ -24,20 +26,38 @@ class Player
  
   end
 
+  def at_bats
+    10
+  end
+
+  def most_improved_batting_average( range )
+    100
+  end
+
+  def least_improved_batting_average( range )
+    20
+  end
+
+  def Player.find( csv )
+    @@players.each do |player|
+      return player if csv[0] == player.playerID
+    end
+    nil
+  end
+
   def Player.all
     csvs = CSV.read( File.expand_path( '../Batting-07-12.csv', __FILE__ ))
-    players = []
     csvs.each do |csv|
       next if csv[0] == 'playerID'
       player = Player.find( csv )
       if player.nil?
         player = Player.new( csv )
-        players << player
+        @@players << player
       else
         player.add( csv )
       end
     end
-    players
+    @@players 
   end
 
   def eql?(other)
