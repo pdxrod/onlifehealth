@@ -84,4 +84,3 @@ describe 'baseball' do
 
 end
 
-

@@ -18,7 +18,7 @@ class Player
       value = '0' if value.nil? 
       send( (ATTRIBUTES[ t ].to_s + '=').to_sym, value )
     end
-    @@players << self
+    @@players << self unless Player.find( csv )
   end
 
   def at_bats
@@ -34,16 +34,18 @@ class Player
   end
 
   def Player.add csv
-    raise "The argment to add should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
+    raise "The argument to add should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
     player = Player.find csv
-    puts "player at_bats: #{ player.at_bats }" if player.playerID == 'accarje01' 
-    ab = player.AB.to_i
-    ab += csv[ 5 ].to_i
-    player.AB = ab.to_s
-    @@players.size.times do |t|
-      @@players[ t ] = player if @@players[ t ].playerID == player.playerID
-    end 
-    puts "player at_bats: #{ player.at_bats }" if player.playerID == 'accarje01' 
+    if player.nil?
+      Player.new csv
+    else
+      ab = player.AB.to_i
+      ab += csv[ 5 ].to_i
+      player.AB = ab.to_s
+      @@players.size.times do |t|
+        @@players[ t ] = player if @@players[ t ].playerID == player.playerID
+      end
+    end  
   end
 
   def Player.find( csv )
