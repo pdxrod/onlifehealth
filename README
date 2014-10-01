@@ -1,2 +1,5 @@
 gem install bundler
 bundle install
+rspec
+
+

@@ -47,7 +47,7 @@ class Player
     nil
   end
 
-  def Player.all
+  def Player.initialize
     csvs = CSV.read( File.expand_path( '../Batting-07-12.csv', __FILE__ ))
     csvs.each do |csv|
       next if csv[0] == 'playerID'
@@ -59,8 +59,11 @@ class Player
         player.add( csv )
       end
     end
-    @@players 
   end
+
+  def Player.all
+    @@players
+  end 
 
   def eql?(other)
     other.instance_of?(self.class) && self.playerID == other.playerID 

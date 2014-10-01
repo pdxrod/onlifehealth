@@ -6,6 +6,10 @@ describe 'baseball' do
   
   context 'basic methods' do
 
+    before do
+      Player.initialize
+    end
+
     it 'should have basic methods' do
       csv = ['accarje01','2012','AL','CLE','26','2','0','0','0','0','0','0','0','0']
       player = Player.new csv
@@ -17,7 +21,6 @@ describe 'baseball' do
     end
 
     it 'should have basic baseball methods' do
-
       players = Player.all
       expect(players[0]).not_to eq players[-1]
       players.each do |player|
@@ -32,6 +35,10 @@ describe 'baseball' do
   end
 
   context 'improved batting average' do
+
+    before do
+      Player.initialize
+    end
 
     it 'should output the most improved batting average (hits/at-bats) from 2009-2010 for players with at least 200 at-bats' do
       least_improved = Player.all.select{ |player| player.least_improved_batting_average( RANGE ) > 200 }
