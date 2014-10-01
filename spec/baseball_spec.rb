@@ -10,8 +10,13 @@ describe 'baseball' do
       Player.initialize
     end
 
-    it 'should have some players' do
-      expect(Player.all.size).to be > 3
+    it 'include? should work' do
+      csv = ['foobar','2012','AL','CLE','26','2','5','4','0','0','3','2','1','0']
+      player = Player.new csv
+      expect(Player.all.include? player).to be_false
+      player = Player.all[ 2 ]
+      expect(player).not_to be_nil
+      expect(Player.all.include? player).to be_true
     end
 
     it 'should have basic methods' do
@@ -45,7 +50,10 @@ describe 'baseball' do
     end
 
     it 'should have some players' do
-      expect(Player.all.size).to be > 3
+      n = Player.all.size
+      expect(n).to be > 2400
+      Player.initialize
+      expect(n).to eq Player.all.size
     end
 
     it 'should output the most improved batting average (hits/at-bats) from 2009-2010 for players with at least 200 at-bats' do

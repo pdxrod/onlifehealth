@@ -42,7 +42,6 @@ class Player
 
   def Player.find( csv )
     @@players.each do |player|
-puts "Player.find #{ csv[0] } #{ player.playerID }"
       return player if csv[0] == player.playerID
     end
     nil
@@ -55,7 +54,7 @@ puts "Player.find #{ csv[0] } #{ player.playerID }"
       player = Player.find( csv )
       if player.nil?
         player = Player.new( csv )
-        @@players << player
+        @@players << player unless @@players.include?( player )
       else
         player.add( csv )
       end
