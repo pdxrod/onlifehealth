@@ -15,8 +15,13 @@ class Player
     raise "Don't use the first line of a CSV file to initialize a player" if csv[ 0 ] == 'playerID'
     csv.size.times do |t|
       value = csv[ t ]
+      value = '0' if value.nil? # see empty data above ... TOR,16,,,,,,,,,
       send( (ATTRIBUTES[ t ].to_s + '=').to_sym, value )
     end
+  end
+
+  def add csv
+ 
   end
 
   def Player.all
@@ -24,7 +29,13 @@ class Player
     players = []
     csvs.each do |csv|
       next if csv[0] == 'playerID'
-      players << Player.new( csv )
+      player = Player.find( csv )
+      if player.nil?
+        player = Player.new( csv )
+        players << player
+      else
+        player.add( csv )
+      end
     end
     players
   end
