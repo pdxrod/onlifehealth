@@ -39,12 +39,19 @@ class Player
     if player.nil?
       Player.new csv
     else
+ 
+puts "'accarje01' #{player.at_bats}" if player.playerID == 'accarje01'
+
       ab = player.AB.to_i
       ab += csv[ 5 ].to_i
       player.AB = ab.to_s
       @@players.size.times do |t|
         @@players[ t ] = player if @@players[ t ].playerID == player.playerID
       end
+
+player = Player.find csv
+puts "'accarje01' #{player.at_bats}" if player.playerID == 'accarje01'
+
     end  
   end
 

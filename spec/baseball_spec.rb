@@ -27,11 +27,10 @@ describe 'baseball' do
     end
 
     it 'should have basic methods' do
-      csv = ['accarje01','2012','AL','CLE','26','2','0','0','0','0','0','0','0','0']
+      csv = ['foobar01','2012','AL','CLE','26','2','0','0','0','0','0','0','0','0']
       player = Player.new csv
-      expect( player.playerID ).to eq 'accarje01'
+      expect( player.playerID ).to eq 'foobar01'
       expect( player.at_bats ).to eq 2
-      player = Player.find csv
       Player.add csv
       player = Player.find csv
       expect( player.at_bats ).to eq 4
