@@ -11,12 +11,14 @@ describe 'baseball' do
     end
 
     it 'include? should work' do
+      n = Player.all.size
       csv = ['foobar','2012','AL','CLE','26','2','5','4','0','0','3','2','1','0']
       player = Player.new csv
-      expect(Player.all.include? player).to be_false
+      expect(Player.all.size).to eq n + 1
+      expect(Player.all).to include player 
       player = Player.all[ 2 ]
       expect(player).not_to be_nil
-      expect(Player.all.include? player).to be_true
+      expect(Player.all).to include player
     end
 
     it 'should have basic methods' do
