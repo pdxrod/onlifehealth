@@ -48,7 +48,7 @@ class Player
 
   def Player.find( csv )
     players = Player.all.select { |player| player.playerID == csv[ 0 ] }
-    raise 'Uniqueness error in players' unless players.size < 2
+    raise "Uniqueness error in players: players size is #{players.size}" unless players.size < 2
     players[ 0 ]
   end
 
@@ -56,11 +56,10 @@ class Player
     return unless @@players.empty?
     csvs = CSV.read( File.expand_path( '../Batting-07-12.csv', __FILE__ ))
     csvs.each do |csv|
-      next if csv[ 0]  == 'playerID'
+      next if csv[ 0 ] == 'playerID'
       player = Player.find( csv )
       if player.nil?
         player = Player.new( csv )
-        @@players << player unless @@players.include?( player )
       else
         Player.add( csv )
       end
