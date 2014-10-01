@@ -23,11 +23,13 @@ class Player
   end
 
   def add csv
- 
+    ab = self.AB.to_i
+    ab += csv[ 5 ].to_i
+    self.AB = ab.to_s 
   end
 
   def at_bats
-    10
+    self.AB.to_i 
   end
 
   def most_improved_batting_average( range )

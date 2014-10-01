@@ -6,11 +6,22 @@ describe 'baseball' do
   
   context 'basic methods' do
 
+    it 'should have basic methods' do
+      csv = ['accarje01','2012','AL','CLE','26','2','0','0','0','0','0','0','0','0']
+      player = Player.new csv
+      expect( player.playerID ).to eq 'accarje01'
+      expect( player.at_bats ).to eq 2
+      player = Player.find 'accarje01'
+      player.add csv
+      expect( player.t_bats ).to eq 4
+    end
+
     it 'should have basic baseball methods' do
 
       players = Player.all
       expect(players[0]).not_to eq players[-1]
       players.each do |player|
+        expect(player).to respond_to :AB
         expect(player).to respond_to :at_bats
         expect(player.least_improved_batting_average( RANGE )).not_to be_nil 
         expect(player.most_improved_batting_average( RANGE )).not_to be_nil
