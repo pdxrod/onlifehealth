@@ -10,6 +10,11 @@ describe 'baseball' do
       Player.initialize
     end
 
+    it 'should not allow duplicates' do
+      players = Player.all.collect { |p| p.playerID }
+      expect(players.uniq.sort).to eq players.sort
+    end  
+
     it 'include? should work' do
       n = Player.all.size
       csv = ['foobar','2012','AL','CLE','26','2','5','4','0','0','3','2','1','0']

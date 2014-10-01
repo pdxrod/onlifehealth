@@ -26,7 +26,10 @@ class Player
     player = Player.find csv
     ab = player.AB.to_i
     ab += csv[ 5 ].to_i
-    player.AB = ab.to_s 
+    player.AB = ab.to_s
+    @@players.size.times do |t|
+      @@players[ t ] = player if @@players[ t ].playerID == player.playerID
+    end  
   end
 
   def at_bats
@@ -49,7 +52,7 @@ class Player
   def Player.initialize
     csvs = CSV.read( File.expand_path( '../Batting-07-12.csv', __FILE__ ))
     csvs.each do |csv|
-      next if csv[0] == 'playerID'
+      next if csv[ 0]  == 'playerID'
       player = Player.find( csv )
       if player.nil?
         player = Player.new( csv )
@@ -73,5 +76,4 @@ class Player
   end
 
 end
-
 
