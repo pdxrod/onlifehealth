@@ -21,17 +21,6 @@ class Player
     @@players << self
   end
 
-  def add csv
-    raise "The argment to add should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
-    player = Player.find csv
-    ab = player.AB.to_i
-    ab += csv[ 5 ].to_i
-    player.AB = ab.to_s
-    @@players.size.times do |t|
-      @@players[ t ] = player if @@players[ t ].playerID == player.playerID
-    end  
-  end
-
   def at_bats
     self.AB.to_i 
   end
@@ -44,12 +33,27 @@ class Player
     20
   end
 
+  def Player.add csv
+    raise "The argment to add should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
+    player = Player.find csv
+    puts "player at_bats: #{ player.at_bats }" if player.playerID == 'accarje01' 
+    ab = player.AB.to_i
+    ab += csv[ 5 ].to_i
+    player.AB = ab.to_s
+    @@players.size.times do |t|
+      @@players[ t ] = player if @@players[ t ].playerID == player.playerID
+    end 
+    puts "player at_bats: #{ player.at_bats }" if player.playerID == 'accarje01' 
+  end
+
   def Player.find( csv )
     players = Player.all.select { |player| player.playerID == csv[ 0 ] }
+    raise 'Uniqueness error in players' unless players.size < 2
     players[ 0 ]
   end
 
   def Player.initialize
+    return unless @@players.empty?
     csvs = CSV.read( File.expand_path( '../Batting-07-12.csv', __FILE__ ))
     csvs.each do |csv|
       next if csv[ 0]  == 'playerID'
@@ -58,7 +62,7 @@ class Player
         player = Player.new( csv )
         @@players << player unless @@players.include?( player )
       else
-        player.add( csv )
+        Player.add( csv )
       end
     end
   end

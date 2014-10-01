@@ -32,7 +32,7 @@ describe 'baseball' do
       expect( player.playerID ).to eq 'accarje01'
       expect( player.at_bats ).to eq 2
       player = Player.find csv
-      player.add csv
+      Player.add csv
       player = Player.find csv
       expect( player.at_bats ).to eq 4
     end
