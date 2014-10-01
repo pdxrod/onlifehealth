@@ -53,8 +53,7 @@ class Player
   def Player.initialize
     return unless @@players.empty?
     file = '../Batting-07-12.csv'
-    file = "../#{ ARGV[ 0 ] }" if ARGV[ 0 ]
-puts file
+    file = "../#{ ENV['FILE'] }" if ENV['FILE']
     csvs = CSV.read( File.expand_path( file, __FILE__ ))
     csvs.each do |csv|
       next if csv[ 0 ] == 'playerID'

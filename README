@@ -1,6 +1,9 @@
 Do the following:
 
-gem install bundler
-bundle install
-rspec
+$ gem install bundler
+$ bundle install
+$ rspec
+(or 
+$ FILE=Pitching-07-12.csv rspec 
+if you want to use pitching instead of batting data)
 
