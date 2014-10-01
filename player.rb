@@ -42,6 +42,7 @@ class Player
 
   def Player.find( csv )
     @@players.each do |player|
+puts "Player.find #{ csv[0] } #{ player.playerID }"
       return player if csv[0] == player.playerID
     end
     nil
