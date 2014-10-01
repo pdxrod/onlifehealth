@@ -1,5 +1,6 @@
+Do the following:
+
 gem install bundler
 bundle install
 rspec
-
 
