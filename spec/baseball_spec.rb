@@ -10,6 +10,10 @@ describe 'baseball' do
       Player.initialize
     end
 
+    it 'should have some players' do
+      expect(Player.all.size).to be > 3
+    end
+
     it 'should have basic methods' do
       csv = ['accarje01','2012','AL','CLE','26','2','0','0','0','0','0','0','0','0']
       player = Player.new csv
@@ -17,7 +21,7 @@ describe 'baseball' do
       expect( player.at_bats ).to eq 2
       player = Player.find 'accarje01'
       player.add csv
-      expect( player.t_bats ).to eq 4
+      expect( player.at_bats ).to eq 4
     end
 
     it 'should have basic baseball methods' do
@@ -38,6 +42,10 @@ describe 'baseball' do
 
     before do
       Player.initialize
+    end
+
+    it 'should have some players' do
+      expect(Player.all.size).to be > 3
     end
 
     it 'should output the most improved batting average (hits/at-bats) from 2009-2010 for players with at least 200 at-bats' do
