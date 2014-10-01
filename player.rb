@@ -23,9 +23,10 @@ class Player
 
   def add csv
     raise "The argment to add should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
-    ab = self.AB.to_i
+    player = Player.find csv
+    ab = player.AB.to_i
     ab += csv[ 5 ].to_i
-    self.AB = ab.to_s 
+    player.AB = ab.to_s 
   end
 
   def at_bats
