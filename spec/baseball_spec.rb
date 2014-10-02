@@ -12,16 +12,14 @@ describe 'baseball' do
 
     it 'include? should work' do
       n = Player.all.keys.size
-      csv = ['foobar12','2012','AL','CLE','26','2','5','4','0','0','3','2','1','0']
+      csv = ['foobar12','2011','AL','CLE','26','2','5','4','0','0','3','2','1','0']
       player = Player.new csv
       expect( Player.all.keys.size ).to eq n + 1
-      expect( Player.all[ 'foobar' ] ).to eq player 
+      expect( Player.all[ 'foobar12' ] ).to eq player 
       csv = ['foobar12','2012','AL','CLE','26','2','5','4','0','0','3','2','1','0']
       player = Player.new csv
       expect( Player.all.keys.size ).to eq n + 1
       expect( Player.all.keys ).to include 'foobar12'
-      old_player = Player.all[ 'foobar12' ]
-      expect( old_player ).to eq player 
     end
 
     it 'should have basic methods' do

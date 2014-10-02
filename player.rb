@@ -23,6 +23,7 @@ class Player
     else
       add_to player, csv
     end
+    (player.nil?? self : player)
   end
 
   def add_to player, csv  
@@ -75,14 +76,6 @@ class Player
   def Player.all
     @@players
   end 
-
-  def eql?(other)
-    other.instance_of?(self.class) && self.playerID == other.playerID 
-  end
-
-  def ==(other)
-    self.eql?(other)
-  end
 
 end
 
