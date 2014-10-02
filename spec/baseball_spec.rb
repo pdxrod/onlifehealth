@@ -27,13 +27,20 @@ describe 'baseball' do
       player = Player.new csv
       expect( player.playerID ).to eq 'foobar01'
       expect( player.AB ).to eq 2
-      Player.add csv
+      csv = ['foobar01','2013','AL','CLE','26','2','0','0','0','0','0','0','0','0']
+      Player.new csv
       player = Player.find csv
+      expect(player.playerID).to eq 'foobar01'
       expect( player.AB ).to eq 4
     end
 
     it 'should have basic baseball methods' do
       players = Player.all.values
+      attributes_size = 1
+      players.each do |player|
+        attributes_size = player.attributes_array.size if player.attributes_array.size > attributes_size
+      end
+      expect(attributes_size).to be > 1
       expect(players.size).to eq 2407 # (cat Batting-07-12.csv | cut -c 1-8 | uniq | wc -l) - 1
       expect(players[0]).not_to eq players[-1]
       players.each do |player|

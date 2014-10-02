@@ -48,11 +48,6 @@ class Player
     (self.AB > 199 ? 100 : 1)
   end
 
-  def Player.add csv
-    raise "The argument to add should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
-    Player.new csv
-  end
-
   def Player.find csv
     Player.all.each do |playerID, player|
       return player if playerID == csv[ 0 ][ 0..7 ]
