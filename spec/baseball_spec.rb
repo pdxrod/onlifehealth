@@ -97,6 +97,8 @@ describe 'baseball' do
 
       sp = Player.slugging_percentage( 'OAK', '2007' )
       expect(sp).to be > 0.0
+      puts
+      puts "Oakland A's slugging percentage for 2007: #{sp}"
 
     end
 

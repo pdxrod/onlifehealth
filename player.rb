@@ -51,14 +51,32 @@ class Player
     @attributes_array[ 0 ][ :playerID ]
   end
 
+  def attributes_for_year( year )
+    @attributes_array.select { |attributes| attributes[ :yearID ] == year }
+  end
+
   def most_improved_batting_average( range )
     (self.AB > 199 ? 100 : 1)
   end
 
   def Player.slugging_percentage( team, year )
-# Slugging percentage = ((Hits – doubles – triples – home runs) + (2 * doubles) + (3 * triples) + (4 * home runs)) / at-bats
-
-
+# ((Hits – doubles – triples – home runs) + (2 * doubles) + (3 * triples) + (4 * home runs)) / at-bats
+# playerID,yearID,league,teamID,G,AB,R,H,2B,3B,HR,RBI,SB,CS
+# tollest01,2010,AL,OAK,25,49,5,14,3,0,1,4,0,0
+     hits, doubles, triples, home_runs, at_bats = 0, 0, 0, 0, 0
+     Player.all.each do |id, player|
+       arr = player.attributes_for_year year
+       arr.each do |attrs|
+         next if attrs.empty?
+         next if attrs[:teamID] != team
+         hits += attrs[:H].to_f
+         at_bats += attrs[:AB].to_f
+         doubles += attrs[:B2].to_f
+         triples += attrs[:B3].to_f
+         home_runs += attrs[:HR].to_f
+       end
+     end
+     ((hits - doubles - triples - home_runs) + (2.0 * doubles) + (3.0 * triples) + (4.0 * home_runs)) / at_bats
   end
 
   def Player.find csv
