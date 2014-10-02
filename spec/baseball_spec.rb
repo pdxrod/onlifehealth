@@ -64,8 +64,8 @@ describe 'baseball' do
     end
 
     it 'should output the most improved batting average (hits/at-bats) from 2009-2010 for players with at least 200 at-bats' do
-      least_improved = Player.all.select{ |player| player.most_improved_batting_average( RANGE ) < 50 }
-      at_least_200 = Player.all.select { |player| player.AB > 199 and player.most_improved_batting_average( RANGE ) > 49 } 
+      least_improved = Player.values.select{ |player| player.most_improved_batting_average( RANGE ) < 50 }
+      at_least_200 = Player.values.select { |player| player.AB > 199 and player.most_improved_batting_average( RANGE ) > 49 } 
       expect(least_improved.size).to be > 0
       expect(at_least_200.size).to be > 0
 
