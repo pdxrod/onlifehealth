@@ -33,7 +33,7 @@ describe 'baseball' do
     end
 
     it 'should have basic baseball methods' do
-      players = Player.all
+      players = Player.all.values
       expect(players.size).to eq 2407 # (cat Batting-07-12.csv | cut -c 1-8 | uniq | wc -l) - 1
       expect(players[0]).not_to eq players[-1]
       players.each do |player|
