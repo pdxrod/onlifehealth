@@ -30,18 +30,19 @@ describe 'baseball' do
       csv = ['foobar01','2012','AL','CLE','26','2','0','0','0','0','0','0','0','0']
       player = Player.new csv
       expect( player.playerID ).to eq 'foobar01'
-      expect( player.at_bats ).to eq 2
+      expect( player.AB ).to eq 2
       Player.add csv
       player = Player.find csv
-      expect( player.at_bats ).to eq 4
+      expect( player.AB ).to eq 4
     end
 
     it 'should have basic baseball methods' do
       players = Player.all
+      expect(players.size).to eq 2405 # (cat Batting-07-12.csv | cut -c 1-8 | uniq | wc -l) - 1
       expect(players[0]).not_to eq players[-1]
       players.each do |player|
         expect(player).to respond_to :AB
-        expect(player).to respond_to :at_bats
+        expect(player).to respond_to :AB
         expect(player.most_improved_batting_average( RANGE )).not_to be_nil
       end
 
@@ -64,7 +65,7 @@ describe 'baseball' do
 
     it 'should output the most improved batting average (hits/at-bats) from 2009-2010 for players with at least 200 at-bats' do
       least_improved = Player.all.select{ |player| player.most_improved_batting_average( RANGE ) < 50 }
-      at_least_200 = Player.all.select { |player| player.at_bats > 199 and player.most_improved_batting_average( RANGE ) > 49 } 
+      at_least_200 = Player.all.select { |player| player.AB > 199 and player.most_improved_batting_average( RANGE ) > 49 } 
       expect(least_improved.size).to be > 0
       expect(at_least_200.size).to be > 0
 

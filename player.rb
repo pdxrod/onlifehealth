@@ -3,26 +3,44 @@ require 'csv'
 
 class Player
 
-  @@players = []
+  @@players = {} 
 
 # playerID,  yearID, league, teamID, G, AB, R, H, 2B, 3B, HR, RBI, SB, CS
 # accarje01, 2011,   AL,     BAL,    1, 0,  0, 0, 0,  0,  0,  0,   0,  0
-  ATTRIBUTES = [:playerID, :yearID, :league, :teamID, :G, :AB, :R, :H, :B2, :B3, :HR, :RBI, :SB, :CS]
-  ATTRIBUTES.each { |attribute| attr_accessor attribute }  
+# abercre01, 2008,   NL,     HOU,    34,55,10,17, 5,  0,  2,  5,   5,  2
+# abercre01, 2007,   NL,     FLO,    35,76,16,15, 3,  0,  2,  5,   7,  1
+  ATTRIBUTES = {playerID: nil, yearID: nil, league: nil, teamID: nil, G: nil, AB: nil, R: nil, H: nil, B2: nil, B3: nil, HR: nil, RBI: nil, SB: nil, CS: nil}
+
+  attr_accessor :attributes_array
 
   def initialize csv
+
+puts "Player initalize: csv is #{csv}" if csv.join( '' ) =~ /accar/
+
     raise "Don't use the first line of a CSV file to initialize a player" if csv[ 0 ] == 'playerID'
-    raise "The argment to new should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
+    raise "The argument to new should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
+    @attributes_array = []
+    attributes = ATTRIBUTES.dup
     csv.size.times do |t|
       value = csv[ t ]
+      value = value[0..7] if t == 0
       value = '0' if value.nil? 
-      send( (ATTRIBUTES[ t ].to_s + '=').to_sym, value )
+      attributes[ ATTRIBUTES.keys[ t ] ] = value 
     end
-    @@players << self unless Player.find( csv )
+    @attributes_array << attributes
+    @@players[ self.playerID ] = self 
   end
 
-  def at_bats
-    self.AB.to_i 
+  def AB
+    sum = 0
+    @attributes_array.each do |arr|
+      sum += arr[:AB].to_i
+    end
+    sum 
+  end
+
+  def playerID
+    @attributes_array[ 0 ][ :playerID ]
   end
 
   def most_improved_batting_average( range )
@@ -31,23 +49,7 @@ class Player
 
   def Player.add csv
     raise "The argument to add should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
-    player = Player.find csv
-    if player.nil?
-      Player.new csv
-    else
-      ab = player.AB.to_i
-      ab += csv[ 5 ].to_i
-      player.AB = ab.to_s
-      @@players.size.times do |t|
-        @@players[ t ] = player if @@players[ t ].playerID == player.playerID
-      end
-    end  
-  end
-
-  def Player.find( csv )
-    players = Player.all.select { |player| player.playerID == csv[ 0 ] }
-    raise "Uniqueness error in players: players size is #{players.size}" unless players.size < 2
-    players[ 0 ]
+    Player.new csv
   end
 
   def Player.initialize
@@ -57,12 +59,7 @@ class Player
     csvs = CSV.read( File.expand_path( file, __FILE__ ))
     csvs.each do |csv|
       next if csv[ 0 ] == 'playerID'
-      player = Player.find( csv )
-      if player.nil?
-        player = Player.new( csv )
-      else
-        Player.add( csv )
-      end
+      Player.new( csv )
     end
   end
 
