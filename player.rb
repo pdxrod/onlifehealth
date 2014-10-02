@@ -13,13 +13,20 @@ class Player
 
   attr_accessor :attributes_array
 
+# This is an unusual intialize method - it sometimes puts a new player in the Player.players hash, and sometimes updates an old one
   def initialize csv
-
-# puts "Player initalize: csv is #{csv}" if csv.join( '' ) =~ /accar/
-
     raise "Don't use the first line of a CSV file to initialize a player" if csv[ 0 ] == 'playerID'
     raise "The argument to new should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
-    @attributes_array = []
+    player = Player.find csv 
+    if player.nil?
+      add_to self, csv
+    else
+      add_to player, csv
+    end
+  end
+
+  def add_to player, csv  
+    player.attributes_array = [] if player.attributes_array.nil?
     attributes = ATTRIBUTES.dup
     csv.size.times do |t|
       value = csv[ t ]
@@ -27,9 +34,8 @@ class Player
       value = '0' if value.nil? 
       attributes[ ATTRIBUTES.keys[ t ] ] = value 
     end
-    @attributes_array << attributes
-    @@players[ self.playerID ] = self 
-    self
+    player.attributes_array << attributes
+    @@players[ player.playerID ] = player 
   end
 
   def AB
