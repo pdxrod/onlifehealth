@@ -15,7 +15,7 @@ class Player
 
   def initialize csv
 
-puts "Player initalize: csv is #{csv}" if csv.join( '' ) =~ /accar/
+# puts "Player initalize: csv is #{csv}" if csv.join( '' ) =~ /accar/
 
     raise "Don't use the first line of a CSV file to initialize a player" if csv[ 0 ] == 'playerID'
     raise "The argument to new should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
@@ -29,6 +29,7 @@ puts "Player initalize: csv is #{csv}" if csv.join( '' ) =~ /accar/
     end
     @attributes_array << attributes
     @@players[ self.playerID ] = self 
+    self
   end
 
   def AB
@@ -44,12 +45,19 @@ puts "Player initalize: csv is #{csv}" if csv.join( '' ) =~ /accar/
   end
 
   def most_improved_batting_average( range )
-    (self.at_bats > 199 ? 100 : 1)
+    (self.AB > 199 ? 100 : 1)
   end
 
   def Player.add csv
     raise "The argument to add should be an array of size #{ ATTRIBUTES.size }" unless csv.size == ATTRIBUTES.size
     Player.new csv
+  end
+
+  def Player.find csv
+    Player.all.each do |playerID, player|
+      return player if playerID == csv[ 0 ][ 0..7 ]
+    end
+    nil
   end
 
   def Player.initialize
