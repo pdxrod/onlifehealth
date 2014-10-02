@@ -44,11 +44,10 @@ describe 'baseball' do
       expect(players.size).to eq 2407 # (cat Batting-07-12.csv | cut -c 1-8 | uniq | wc -l) - 1
       expect(players[0]).not_to eq players[-1]
       players.each do |player|
-        expect(player).to respond_to :AB
+        expect(player).to respond_to :playerID
         expect(player).to respond_to :AB
         expect(player.most_improved_batting_average( RANGE )).not_to be_nil
       end
-
     end
 
   end
