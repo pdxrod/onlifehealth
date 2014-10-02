@@ -55,6 +55,12 @@ class Player
     (self.AB > 199 ? 100 : 1)
   end
 
+  def Player.slugging_percentage( team, year )
+# Slugging percentage = ((Hits – doubles – triples – home runs) + (2 * doubles) + (3 * triples) + (4 * home runs)) / at-bats
+
+
+  end
+
   def Player.find csv
     Player.all.each do |playerID, player|
       return player if playerID == csv[ 0 ][ 0..7 ]

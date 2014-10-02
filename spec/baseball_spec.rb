@@ -28,7 +28,7 @@ describe 'baseball' do
       expect( player.playerID ).to eq 'foobar01'
       expect( player.AB ).to eq 2
       csv = ['foobar01','2013','AL','CLE','26','2','0','0','0','0','0','0','0','0']
-      Player.new csv
+      Player.new csv # new doesn't always mean new
       player = Player.find csv
       expect(player.playerID).to eq 'foobar01'
       expect( player.AB ).to eq 4
@@ -64,7 +64,6 @@ describe 'baseball' do
       expect(players.keys[ 11 ].class.to_s).to eq 'String'
       expect(players.values[ 11 ].class.to_s).to eq 'Player'
       n = players.size
-      expect(n).to eq 2407
       Player.initialize
       expect(n).to eq Player.all.size
     end
@@ -88,5 +87,19 @@ describe 'baseball' do
 
   end
 
+  context 'slugging percentage' do
+
+    before do
+      Player.initialize
+    end
+
+    it "should output the slugging percentage for all players in the Oakland A's in 2007" do
+
+      sp = Player.slugging_percentage( 'OAK', '2007' )
+      expect(sp).to be > 0.0
+
+    end
+
+  end
 end
 
